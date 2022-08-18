@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>셀프 체크 - 쿵쿵따</title>
+</head>
+
+<!--
+1. 글자 수는 세 글자를 입력 받을 것
+2. prompt 창에서 취소를 클릭할 시 하위 코드를 실행하지 않을 것
+-->
+
+<body>
+  <div><span id="order">1</span>번째 참가자</div>
+  <div>제시어: <span id="word"></span></div>
+  <input type="text">
+  <button>입력</button>
+  <script>
+    const number = Number(prompt('몇 명이 참가하나요?'));
+
+    if (number) { // NaN == false
+      const $button = document.querySelector('button');
+      const $input = document.querySelector('input');
+      const $word = document.querySelector('#word');
+      const $order = document.querySelector('#order');
+      let word; // 제시어
+      let newWord; // 새로 입력한 단어
+      
+      const onClickButton = () => {
+        
+        // 글자 수 체크
+        if (newWord.length != 3) {
+          alert('단어를 세 글자 입력하세요.');
+        } else {
+          // 제시어가 비어있는가? 또는 단어가 올바른가?
+          if (!word || word[word.length - 1] === newWord[0]) {
+            word = newWord;
+            $word.textContent = word;
+          
+            const order = Number($order.textContent);
+            if ((order + 1) > number) {
+              $order.textContent = 1; // textContent에 넣는 값은 자동 형변환
+            } else {
+              $order.textContent = order + 1;
+            }
+          } else {
+             alert('올바르지 않은 단어입니다.');
+          }
+        }
+        $input.value = '';
+        $input.focus(); // 입력창 커서
+      };
+
+      const onInput = (event) => {
+        newWord = event.target.value;
+      };
+
+      $button.addEventListener('click', onClickButton);
+      $input.addEventListener('input', onInput);
+    }
+  </script>
+</body>
+</html>
