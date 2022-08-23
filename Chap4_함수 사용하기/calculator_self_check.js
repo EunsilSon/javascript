@@ -1,3 +1,9 @@
+/*
+셀프 체크 - 연달아 계산하기
+
+1 + 2 + 4 처럼 계산하고 싶다면 코드를 어떻게 수정하면 될까요?
+*/
+
 let numOne = '';
 let numTwo = '';
 let operator = '';
@@ -7,54 +13,26 @@ const $result = document.querySelector('#result');
 
 // 숫자 입력
 const onClickNumber = (event) => {
-    if (!operator) {
-        numOne += event.target.textContent; 
-        $result.value += event.target.textContent;
-        return; // 함수 종료
-    }
-
-    if (!numTwo) {
-        $result.value = '';
-    }
-    numTwo += event.target.textContent;
+  if (!operator) {
+    numOne += event.target.textContent;
     $result.value += event.target.textContent;
+    return;
+  }
+  if (!numTwo) {
+    $result.value = '';
+  }
+  numTwo += event.target.textContent;
+  $result.value += event.target.textContent;
 };
 
 // 연산자 입력
-const onClickOperator = (op) => (event) => {
-    if (operator) {
-        numOne = calculate;
-    }
-    
+const onClickOperator = (op) => () => {
     if (numOne) {
         operator = op;
         $operator.value = op;
     } else {
         alert('숫자를 먼저 입력하세요.');
     }
-}
-
-const calculate = () => {
-    if (numTwo) {
-        switch (operator) {
-          case '+':
-            $result.value = parseInt(numOne) + parseInt(numTwo);
-            break;
-          case '-':
-            $result.value = numOne - numTwo;
-            break;
-          case '*':
-            $result.value = numOne * numTwo;
-            break;
-          case '/':
-            $result.value = numOne / numTwo;
-            break;
-          default:
-            break;
-        }
-      } else {
-        alert('숫자를 먼저 입력하세요.');
-      }
 }
 
 document.querySelector('#num-0').addEventListener('click', onClickNumber);
@@ -80,4 +58,28 @@ document.querySelector('#clear').addEventListener('click', () => {
     $result.value = '';
 });
 
-document.querySelector('#calculate').addEventListener('click', calculate);
+document.querySelector('#calculate').addEventListener('click', () => {
+    if (numTwo) {
+      switch (operator) {
+        case '+':
+          $result.value = parseInt(numOne) + parseInt(numTwo);
+          break;
+        case '-':
+          $result.value = numOne - numTwo;
+          break;
+        case '*':
+          $result.value = numOne * numTwo;
+          break;
+        case '/':
+          $result.value = numOne / numTwo;
+          break;
+        default:
+          break;
+      }
+      $operator.value = '';
+      numOne = $result.value;
+      numTwo = '';
+    } else {
+      alert('숫자를 먼저 입력하세요.');
+    }
+  });
